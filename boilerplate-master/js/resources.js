@@ -20,6 +20,7 @@ game.resources = [
     // !NOTE! need to add several sprites, for different enemies
     {name: "wheelie_right", type: "image", src: "data/img/sprite/wheelie_right.png"},
     {name: "slave_01", type: "image", src: "data/img/sprite/slave_01.png"},
+    {name: "slave_02", type: "image", src: "data/img/sprite/slave_02.png"},
 
     /* Texture Atlases
      * @example

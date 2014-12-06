@@ -95,9 +95,6 @@ game.PlayerEntity = me.Entity.extend({
         switch(response.b.body.collisionType) {
                 case me.collision.types.WORLD_SHAPE:
                 // if it is a platform it is possible to go through it
-                // !!!!!!!!!!!!
-                // Not working 
-                // !!!!!!!!!!!!
                 if (other.type === "platform") {
                     // if all of the following, don't pass through
                     // not pressing down, overlap the platform and have vertical speed
@@ -133,6 +130,7 @@ game.PlayerEntity = me.Entity.extend({
         return true;
     }
 });
+// !!! Collectibles !!!
 /*  --------------
     A coin entity
     -------------- */
@@ -140,6 +138,35 @@ game.CoinEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory unless you need to add some extra initialization
     init: function(x, y, settings) {
         this._super(me.CollectableEntity, 'init', [x, y, settings]);
+    },
+    
+    // this function is called by the engine, when an object is touched by something (here, collected)
+    onCollision: function(response, other) {
+        
+        // do something when collected
+        
+        // make sure it cannot be collected "again"
+        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        
+        //remove it
+        me.game.world.removeChild(this);
+        
+        return false;
+        
+    },
+});
+/*  --------------
+    A slave entity
+    -------------- */
+game.SlaveEntity = me.CollectableEntity.extend({
+    // extending the init function is not mandatory unless you need to add some extra initialization
+    init: function(x, y, settings) {
+        // Make it random between slave_01 and slave_02
+        settings.image = "slave_02";
+        settings.spritewidth = 64;
+        settings.spriteheight = 64;
+        
+        this._super(me.CollectableEntity, 'init', [x, y, settings]);    
     },
     
     // this function is called by the engine, when an object is touched by something (here, collected)
@@ -154,7 +181,10 @@ game.CoinEntity = me.CollectableEntity.extend({
         
         return false;
     },
+    
 });
+
+// !!! Enemies !!!
 /*  --------------
     An enemy entity
     -------------- */

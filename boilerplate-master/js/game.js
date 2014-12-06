@@ -49,6 +49,7 @@ var game = {
         me.pool.register("mainPlayer", game.PlayerEntity);
         // add coin to game pool
         me.pool.register("CoinEntity", game.CoinEntity);
+        me.pool.register("SlaveEntity", game.SlaveEntity);
         me.pool.register("EnemyEntity", game.EnemyEntity);
         
         //enable the keyboard
@@ -56,6 +57,7 @@ var game = {
         me.input.bindKey(me.input.KEY.RIGHT, "right");
         // Changed from x to UP
         me.input.bindKey(me.input.KEY.UP, "jump", true);
+        me.input.bindKey(me.input.KEY.DOWN, "down");
         
 
         // Start the game.

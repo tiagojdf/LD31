@@ -17,7 +17,19 @@ To do:
 * Check player movement speed.
 * Check jump dynamics
 * Fix camera
+* resize canvas
 * Boarder dynamics
+* Layer where enemies can hide - done graphicaly but did not implement mechanics
+* enemy AI
+    * make movement
+    * direction opposite to player    
+* 
+
+To remove:
+
+* coin
+* background scrolling
+
 
 
 
@@ -26,6 +38,8 @@ To do:
 
 
 Resources:
+
+[Add entities withou tiled](http://stackoverflow.com/questions/24294509/programmatically-insert-entities-in-melonjs) - needed to generate random enemies. [another site with the same](https://github.com/melonjs/melonJS/wiki/Frequently-Asked-Questions#object_pooling)
 
 Not used so far:
 

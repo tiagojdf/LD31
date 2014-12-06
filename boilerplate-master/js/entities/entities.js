@@ -1,3 +1,4 @@
+/* global me, game*/
 /**
  * Player Entity
  */
@@ -29,7 +30,7 @@ game.PlayerEntity = me.Entity.extend({
     },
 
     /**
-     * update the entity
+     * update the player position 
      */
     update : function (dt) {
         
@@ -91,7 +92,144 @@ game.PlayerEntity = me.Entity.extend({
      * (called when colliding with other objects)
      */
     onCollision : function (response, other) {
+        switch(response.b.body.collisionType) {
+                case me.collision.types.WORLD_SHAPE:
+                // if it is a platform it is possible to go through it
+                // !!!!!!!!!!!!
+                // Not working 
+                // !!!!!!!!!!!!
+                if (other.type === "platform") {
+                    // if all of the following, don't pass through
+                    // not pressing down, overlap the platform and have vertical speed
+                    if (this.body.falling && !me.input.isKeyPressed('down') && (response.overlapV.y >0) && (this.body.vel.y >= ~~response.overlapV.y)) {
+                        // Disable collision on the X axis
+                        response.overlapV.x = 0;
+                        return true;
+                    }
+                    // do not respond to the platform (pass through)
+                    return false;
+                }
+                break;
+                
+                case me.collision.types.ENEMY_OBJECT:
+                    if ((response.overlapV.y > 0) && !this.body.jumping) {
+                        //bounce - Need to override this
+                        this.body.falling = false;
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                        // set the jumping flag
+                        this.body.jumping = true;
+                    } else {
+                        // let's flicker in case we touch an enemy
+                        // !NOTE! - change to Gave over for real enemy in game
+                        this.renderable.flicker(750);
+                    }
+                return false;
+                
+                default:
+                    // do not respond to other objects
+                    return false;
+        }
         // Make all other objects solid
+        return true;
+    }
+});
+/*  --------------
+    A coin entity
+    -------------- */
+game.CoinEntity = me.CollectableEntity.extend({
+    // extending the init function is not mandatory unless you need to add some extra initialization
+    init: function(x, y, settings) {
+        this._super(me.CollectableEntity, 'init', [x, y, settings]);
+    },
+    
+    // this function is called by the engine, when an object is touched by something (here, collected)
+    onCollision: function(response, other) {
+        // do something when collected
+        
+        // make sure it cannot be collected "again"
+        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        
+        //remove it
+        me.game.world.removeChild(this);
+        
+        return false;
+    },
+});
+/*  --------------
+    An enemy entity
+    -------------- */
+game.EnemyEntity = me.Entity.extend({
+    init: function(x, y, settings){
+        // define image here rather then tiled
+        // !NOTE! need to change for our game
+        settings.image = "slave_01";
+        
+        //save the area size defined in Tiled
+        //!NOTE! - I will need to come up with a different strategy
+        var width = settings.width;
+        var height = settings.height;
+        
+        //adjust the size settings information to match the sprite size so that the entity object is created with the right size
+        // CHECK! - probably not needed for future implementation
+        settings.spritewidth = settings.width = 64;
+        settings.spriteheight = settings.height = 64;
+        
+        // call the parent constructor
+        this._super(me.Entity, 'init', [x, y, settings]);
+        
+        // set start/end position based on the initial area size
+        // !NOTE! - probably not needed
+        
+        // manually update the entity bounds as we manually change the position
+        this.updateBounds();
+        
+        // to remember which side we were walking 
+        this.walkLeft = false; //! is it correct?
+        
+        // walking and jumping speed 
+        this.body.setVelocity(4, 6);
+    },
+    
+    //manage the enemy movement
+    update: function(dt){
+        // boundary behaviour
+        if (this.alive) {
+            if (this.walkLeft && this.pos.x <= this.startX) {
+                this.walkLeft = false;
+            } else if(!this.walkLeft && this.pos.x >= this.endX) {
+                this.walkLeft = true;
+            }
+            // make it walk
+            this.renderable.flipX(this.walkLeft);
+            this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+            
+        } else {
+            this.body.vel.x = 0;
+        }
+        
+        // update the body movement
+        this.body.update(dt);
+        
+        //handle collisions against other shapes
+        me.collision.check(this);
+        
+        // return true if we moved or if the renderable was updated
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||
+    },
+    /**
+     * colision handler
+     * (called when colliding with other objects)
+     */
+    onCollision : function (response, other) {
+        if (response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
+            // res.y >0 means touched by something on the bottom which means at top position for this one
+            // Finally, in the onCollision method, I make the enemy flicker if something is jumping on top of it.
+            if (this.alive && (response.overlapV.y > 0) && response.a.body.falling) {
+                this.renderable.flicker(750);
+            }
+            return false;
+        }
+        //make all other objects solid
         return true;
     }
 });

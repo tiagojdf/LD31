@@ -6,12 +6,20 @@ game.resources = [
      */
     //our level tileset
     {name: "area01_level_tiles", type:"image", src:"data/img/map/area01_level_tiles.png"},
+    {name: "asterion_level_tiles", type: "image", src:"data/img/map/asterion_level_tiles.png"},
     // The main player spritesheet
     {name: "gripe_run_right", type:"image", src: "data/img/sprite/gripe_run_right.png"},
     // the background
     // !NOTE! need to change for our game
     {name: "area01_bkg0", type: "image", src: "data/img/area01_bkg0.png"},
     {name: "area01_bkg1", type: "image", src: "data/img/area01_bkg1.png"},
+    // the spinning coin spritesheet
+    // !NOTE! not needed for now
+    {name: "spinning_coin_gold", type: "image", src: "data/img/sprite/spinning_coin_gold.png"},
+    // our enemy entity
+    // !NOTE! need to add several sprites, for different enemies
+    {name: "wheelie_right", type: "image", src: "data/img/sprite/wheelie_right.png"},
+    {name: "slave_01", type: "image", src: "data/img/sprite/slave_01.png"},
 
     /* Texture Atlases
      * @example

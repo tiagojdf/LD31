@@ -161,18 +161,49 @@ game.CoinEntity = me.CollectableEntity.extend({
 game.SlaveEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory unless you need to add some extra initialization
     init: function(x, y, settings) {
+        
         // Make it random between slave_01 and slave_02
         settings.image = "slave_02";
         settings.spritewidth = 64;
         settings.spriteheight = 64;
         
-        this._super(me.CollectableEntity, 'init', [x, y, settings]);    
+        this._super(me.CollectableEntity, 'init', [x, y, settings]); 
+        
+        // to remember which side we were walking 
+        this.walkLeft = false;
+        
+        //define basic walking animation (using all frames)
+        this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
+        //define a standing animation (using the first frame) - change in LD for more complex later
+        this.renderable.addAnimation("stand", [0]);
+        // set the standing animation as default
+        this.renderable.setCurrentAnimation("stand");
+    },
+    
+    // AI and movement
+    update: function(dt){
+        
+        this.renderable.flipX(this.walkLeft);
+        //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+        // walk right
+        this.body.vel.x += this.body.accel.x *me.timer.tick;
+        // change to walking animation
+        if (!this.renderable.isCurrentAnimation("walk")) {
+            this.renderable.setCurrentAnimation("walk");
+        }
+        // update the body movement
+        this.body.update(dt);
+        
+        me.collision.check(this);
+        
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
     },
     
     // this function is called by the engine, when an object is touched by something (here, collected)
     onCollision: function(response, other) {
         // do something when collected
-        
+        console.log(response.b.body.collisionType);
+        if (response.b.body.collisionType === me.collision.types.COLLECTABLE_OBJECT) {
         // make sure it cannot be collected "again"
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         
@@ -180,6 +211,8 @@ game.SlaveEntity = me.CollectableEntity.extend({
         me.game.world.removeChild(this);
         
         return false;
+        }
+        return true;
     },
     
 });
@@ -192,7 +225,7 @@ game.EnemyEntity = me.Entity.extend({
     init: function(x, y, settings){
         // define image here rather then tiled
         // !NOTE! need to change for our game
-        settings.image = "slave_01";
+        settings.image = "thesee";
         
         //save the area size defined in Tiled
         //!NOTE! - I will need to come up with a different strategy

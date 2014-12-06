@@ -21,6 +21,7 @@ game.resources = [
     {name: "wheelie_right", type: "image", src: "data/img/sprite/wheelie_right.png"},
     {name: "slave_01", type: "image", src: "data/img/sprite/slave_01.png"},
     {name: "slave_02", type: "image", src: "data/img/sprite/slave_02.png"},
+    {name: "thesee", type: "image", src: "data/img/sprite/thesee.png"},
 
     /* Texture Atlases
      * @example

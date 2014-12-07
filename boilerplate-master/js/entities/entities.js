@@ -25,7 +25,7 @@ game.PlayerEntity = me.Entity.extend({
         
         // set the display  to follow our position on both axis
         // !NOTE! - remove for LD project
-        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+        //me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
         
         // ensure the player is updated even when outside of the viewport
         // Why do I need this?
@@ -193,6 +193,9 @@ game.SlaveEntity = me.CollectableEntity.extend({
         // walking and jumping speed 
         this.body.setVelocity(4, 6);
         
+        // keep previous speed
+        this.previousSpeed = 0;
+        
         //define basic walking animation (using all frames)
         this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
         //define a standing animation (using the first frame) - change in LD for more complex later
@@ -207,7 +210,8 @@ game.SlaveEntity = me.CollectableEntity.extend({
         this.renderable.flipX(this.walkLeft);
         //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         // walk right
-        this.body.vel.x += this.body.accel.x *me.timer.tick;
+        this.previousSpeed = this.body.vel.x;
+        this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         console.log(this.body.vel.x);
         // change to walking animation
         if (!this.renderable.isCurrentAnimation("walk")) {
@@ -227,6 +231,11 @@ game.SlaveEntity = me.CollectableEntity.extend({
         
         // do something when collected
         
+        if (this.previousSpeed < this.body.vel.x) {
+            this.walkLeft = !this.walkLeft;
+        }
+        
+        if (this.body.vel.x)
         if (response.a.body.collisionType === me.collision.types.ENEMY_OBJECT) {
             // make sure it cannot be collected "again"
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);

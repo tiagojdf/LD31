@@ -28,7 +28,7 @@ game.PlayerEntity = me.Entity.extend({
         // Why do I need this?
         
         //define basic walking animation (using all frames)
-        this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
+        this.renderable.addAnimation("walk", [1, 2, 3, 4, 5, 6, 7]);
         //define a standing animation (using the first frame) - change in LD for more complex later
         this.renderable.addAnimation("stand", [0]);
         // set the standing animation as default

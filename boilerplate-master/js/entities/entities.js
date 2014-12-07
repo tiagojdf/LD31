@@ -43,6 +43,20 @@ game.PlayerEntity = me.Entity.extend({
      * update the player position 
      */
     update : function (dt) {
+        console.log("Pos y: "+ this.pos.y + "of " + (me.game.currentLevel.height - this.height));
+        
+        if (this.pos.x > me.game.currentLevel.width) {
+            this.pos.x = this.pos.x - me.game.currentLevel.width;
+        } else if (this.pos.x < 0) {
+            this.pos.x = this.pos.x + me.game.currentLevel.width;
+        }
+        if (this.pos.y > (me.game.currentLevel.height - this.height)) {
+            console.log("ASDASDAS");
+            this.pos.y = this.pos.y - me.game.currentLevel.height;
+        } else if (this.pos.y +  this.height< 0) {
+            console.log("0923490284");
+            this.pos.y = this.pos.y + me.game.currentLevel.height;
+        }
         
         // define motion
         //moving left
@@ -212,7 +226,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
         // walk right
         this.previousSpeed = this.body.vel.x;
         this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
-        console.log(this.body.vel.x);
+        //console.log(this.body.vel.x);
         // change to walking animation
         if (!this.renderable.isCurrentAnimation("walk")) {
             this.renderable.setCurrentAnimation("walk");

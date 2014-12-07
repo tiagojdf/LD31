@@ -14,7 +14,7 @@ game.resources = [
     // !NOTE! need to change for our game
     {name: "area01_bkg0", type: "image", src: "data/img/area01_bkg0.png"},
     {name: "area01_bkg1", type: "image", src: "data/img/area01_bkg1.png"},
-    
+    {name: "background", type: "image", src: "data/img/background.png"},
     // the spinning coin spritesheet
     // !NOTE! not needed for now
     {name: "spinning_coin_gold", type: "image", src: "data/img/sprite/spinning_coin_gold.png"},

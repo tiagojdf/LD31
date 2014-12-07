@@ -15,6 +15,8 @@ game.PlayerEntity = me.Entity.extend({
         
         this._super(me.Entity, 'init', [x, y , settings]);
         
+        //console.log(this.getBounds()); //db
+        
         // set the default horizontal & vertical speed (accel vector)
         this.body.setVelocity(3, 15);
         
@@ -31,6 +33,7 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("stand", [0]);
         // set the standing animation as default
         this.renderable.setCurrentAnimation("stand");
+        
     },
 
     /**
@@ -167,8 +170,15 @@ game.SlaveEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory unless you need to add some extra initialization
     init: function(x, y, settings) {
         
+        //sex of the slave
+        this.male = (Math.random() <= 0.5);
         // Make it random between slave_01 and slave_02
-        settings.image = "slave_02";
+        if (this.male) {
+            settings.image = "slave_01";
+        } else {
+            settings.image = "slave_02";
+        }
+        
         settings.spritewidth = 64;
         settings.spriteheight = 64;
         
@@ -206,16 +216,38 @@ game.SlaveEntity = me.CollectableEntity.extend({
     
     // this function is called by the engine, when an object is touched by something (here, collected)
     onCollision: function(response, other) {
+        var p; //used for random events
+        
         // do something when collected
-        console.log(response.b.body.collisionType);
+        //console.log(response.b.body.collisionType); //db
         if (response.b.body.collisionType === me.collision.types.COLLECTABLE_OBJECT) {
-        // make sure it cannot be collected "again"
-        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
-        
-        //remove it
-        me.game.world.removeChild(this);
-        
-        return false;
+            // make sure it cannot be collected "again"
+            this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+            
+            // Play sfx
+            p = Math.random();
+            if (this.male){
+                if (p <= 1/3) {
+                    me.audio.play("cri_Homme");
+                } else if (p <= 2/3) {
+                    me.audio.play("cri_Homme2");
+                } else {
+                    me.audio.play("cri_Homme3"); 
+                }
+            } else {    
+                if (p <= 1/2) {
+                    me.audio.play("Cri_Femme");                
+                } else {
+                    me.audio.play("Cri_Femme2"); 
+                }
+            }
+            
+            
+            // Add death animation
+            
+            //remove it
+            me.game.world.removeChild(this);
+            return false;
         }
         return true;
     },

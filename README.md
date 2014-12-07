@@ -8,7 +8,10 @@ http://tiagojdferreira.github.io/LD31/
 
 Developer - Tiago Ferreira
 
-Graphic's Design - Matthieu Rouquié
+Graphic's Design - [Matthieu Rouquié](www.matthieurouquie.com)
+
+Compositeur - [Benjamin BOUVROT](www.benjaminbouvrot.fr)
+
 
 Tools:
 

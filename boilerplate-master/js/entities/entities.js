@@ -168,6 +168,7 @@ game.PlayerEntity = me.Entity.extend({
                 case me.collision.types.ENEMY_OBJECT:
                 // CHANGE
                 console.log(other.body.collisionType);
+                break;
                     
                 
                 default:
@@ -231,11 +232,16 @@ game.SlaveEntity = me.CollectableEntity.extend({
         // walking and jumping speed 
         this.body.setVelocity(4, 10);
         
-        // keep previous speed
-        this.previousSpeed = 0;
+        // keep previous position
+        this.previousX = this.pos.x;
+        this.previousY = this.pos.y;
         
         //define basic walking animation (using all frames)
         this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
+        //define death animation (using all frames)
+        this.renderable.addAnimation("death", [8, 9, 10]);
+        //define death animation (using all frames)
+        this.renderable.addAnimation("dead", [10]);
         //define a standing animation (using the first frame) - change in LD for more complex later
         this.renderable.addAnimation("stand", [0]);
         // set the standing animation as default
@@ -244,13 +250,23 @@ game.SlaveEntity = me.CollectableEntity.extend({
     
     // AI and movement
     update: function(dt){
-        
+        if (this.alive) {
         wrapAround(this);
         
         this.renderable.flipX(this.walkLeft);
         //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         // walk right
-        this.previousSpeed = this.body.vel.x;
+        if (this.previousX === this.pos.x && this.previousY === this.pos.y) {
+            if (Math.random() <= 0.5) {
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                    } else {
+                        this.walkLeft = !this.walkLeft;
+                    }
+            
+        }
+        
+        this.previousX = this.pos.x;
+        this.previousY = this.pos.y;
         this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         //console.log(this.body.vel.x);
         // change to walking animation
@@ -270,7 +286,10 @@ game.SlaveEntity = me.CollectableEntity.extend({
         
         
         
-        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||  
+        } else {
+            return this.body.vel.x !== 0;
+        }
     },
     
     // this function is called by the engine, when an object is touched by something
@@ -292,7 +311,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
     },
     death: function() {
         var p; //used for random events
-        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        this.body.setCollisionMask(me.collision.types.WORLD_SHAPE);
         // Play sfx
         p = Math.random();
         if (this.male){
@@ -311,10 +330,15 @@ game.SlaveEntity = me.CollectableEntity.extend({
             }
         }
             
+        this.alive = false;
         // Add death animation
+        this.renderable.setCurrentAnimation("death");
+        this.renderable.setCurrentAnimation("death");
+        this.renderable.setCurrentAnimation("death");
+        this.renderable.setCurrentAnimation("dead");
             
         //remove it
-        me.game.world.removeChild(this);
+        //me.game.world.removeChild(this);
         return true;
     },
     
@@ -330,15 +354,18 @@ game.EnemyEntity = me.Entity.extend({
         // !NOTE! need to change for our game
         settings.image = "thesee";
         
+        settings.spritewidth = 64;
+        settings.spriteheight = 64;
+        
         //save the area size defined in Tiled
         //!NOTE! - I will need to come up with a different strategy
-        var width = settings.width;
-        var height = settings.height;
+        //var width = settings.width;
+        //var height = settings.height;
         
         //adjust the size settings information to match the sprite size so that the entity object is created with the right size
         // CHECK! - probably not needed for future implementation
-        settings.spritewidth = settings.width = 64;
-        settings.spriteheight = settings.height = 64;
+        //settings.spritewidth = settings.width = 64;
+        //settings.spriteheight = settings.height = 64;
         
         // call the parent constructor
         this._super(me.Entity, 'init', [x, y, settings]);
@@ -354,10 +381,17 @@ game.EnemyEntity = me.Entity.extend({
         
         // walking and jumping speed 
         this.body.setVelocity(4, 10);
+        
+        //define basic walking animation (using all frames)
+        this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
+        //define a standing animation (using the first frame) - change in LD for more complex later
+        this.renderable.addAnimation("stand", [0]);
+        // set the standing animation as default
+        this.renderable.setCurrentAnimation("stand");
     },
     
     //manage the enemy movement
-    update: function(dt){
+    /*update: function(dt){
         
         wrapAround(this);
         // boundary behaviour
@@ -383,7 +417,47 @@ game.EnemyEntity = me.Entity.extend({
         
         // return true if we moved or if the renderable was updated
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||
+    },*/
+    update: function(dt){
+        
+        wrapAround(this);
+        
+        this.renderable.flipX(this.walkLeft);
+        //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+        // walk right
+        if (this.previousX === this.pos.x && this.previousY === this.pos.y) {
+            if (Math.random() <= 0.5) {
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                    } else {
+                        this.walkLeft = !this.walkLeft;
+                    }
+            
+        }
+        
+        this.previousX = this.pos.x;
+        this.previousY = this.pos.y;
+        this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+        //console.log(this.body.vel.x);
+        // change to walking animation
+        if (!this.renderable.isCurrentAnimation("walk")) {
+            this.renderable.setCurrentAnimation("walk");
+        }
+        // update the body movement
+        this.body.update(dt);
+        
+        // Check, if position the same, jump or change direction or both
+        /*// do something when collected
+        if (this.previousSpeed < this.body.vel.x) {
+            this.walkLeft = !this.walkLeft;
+        }*/
+        
+        me.collision.check(this);
+        
+        
+        
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
     },
+    
     /**
      * colision handler
      * (called when colliding with other objects)

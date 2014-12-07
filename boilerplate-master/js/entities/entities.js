@@ -2,6 +2,20 @@
 /**
  * Player Entity
  */
+var wrapAround = function(obj) {
+    if (obj.pos.x > me.game.currentLevel.width - obj.width/2) {
+            obj.pos.x = obj.pos.x - me.game.currentLevel.width;
+        } else if (obj.pos.x + obj.width <= 0) {
+            obj.pos.x = obj.pos.x + me.game.currentLevel.width;
+        }
+        if (obj.pos.y > (me.game.currentLevel.height - obj.height)) {
+            obj.pos.y = obj.pos.y - me.game.currentLevel.height;
+        } else if (obj.pos.y +  obj.height< 0) {
+            obj.pos.y = obj.pos.y + me.game.currentLevel.height;
+        }
+    
+};
+
 game.PlayerEntity = me.Entity.extend({
 
     /**
@@ -43,20 +57,8 @@ game.PlayerEntity = me.Entity.extend({
      * update the player position 
      */
     update : function (dt) {
-        console.log("Pos y: "+ this.pos.y + "of " + (me.game.currentLevel.height - this.height));
         
-        if (this.pos.x > me.game.currentLevel.width) {
-            this.pos.x = this.pos.x - me.game.currentLevel.width;
-        } else if (this.pos.x < 0) {
-            this.pos.x = this.pos.x + me.game.currentLevel.width;
-        }
-        if (this.pos.y > (me.game.currentLevel.height - this.height)) {
-            console.log("ASDASDAS");
-            this.pos.y = this.pos.y - me.game.currentLevel.height;
-        } else if (this.pos.y +  this.height< 0) {
-            console.log("0923490284");
-            this.pos.y = this.pos.y + me.game.currentLevel.height;
-        }
+        wrapAround(this);
         
         // define motion
         //moving left
@@ -116,7 +118,36 @@ game.PlayerEntity = me.Entity.extend({
      * (called when colliding with other objects)
      */
     onCollision : function (response, other) {
+        switch(other.body.collisionType) {
+                
+            case me.collision.types.WORLD_SHAPE:
+                console.log("Touching the world!");
+                break;
+                
+            case me.collision.types.ENEMY_OBJECT:
+                if ((response.overlapV.y > 0) && !this.body.jumping) {
+                        //bounce - Need to override this
+                        this.body.falling = false;
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                        // set the jumping flag
+                        this.body.jumping = true;
+                    } else {
+                        // let's flicker in case we touch an enemy
+                        // !NOTE! - change to Gave over for real enemy in game
+                        console.log("Game Over");
+                        //alert("Game Over");
+                        
+                        // For debug purposes
+                        this.renderable.flicker(750);
+                        // Death
+                        me.game.world.removeChild(this);
+                    }
+                return false;
+                
+                
+        }
         switch(response.b.body.collisionType) {
+                
                 case me.collision.types.WORLD_SHAPE:
                 // if it is a platform it is possible to go through it
                 if (other.type === "platform") {
@@ -133,18 +164,9 @@ game.PlayerEntity = me.Entity.extend({
                 break;
                 
                 case me.collision.types.ENEMY_OBJECT:
-                    if ((response.overlapV.y > 0) && !this.body.jumping) {
-                        //bounce - Need to override this
-                        this.body.falling = false;
-                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
-                        // set the jumping flag
-                        this.body.jumping = true;
-                    } else {
-                        // let's flicker in case we touch an enemy
-                        // !NOTE! - change to Gave over for real enemy in game
-                        this.renderable.flicker(750);
-                    }
-                return false;
+                // CHANGE
+                console.log(other.body.collisionType);
+                    
                 
                 default:
                     // do not respond to other objects
@@ -221,6 +243,8 @@ game.SlaveEntity = me.CollectableEntity.extend({
     // AI and movement
     update: function(dt){
         
+        wrapAround(this);
+        
         this.renderable.flipX(this.walkLeft);
         //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         // walk right
@@ -277,7 +301,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
             
             //remove it
             me.game.world.removeChild(this);
-            return false;
+            return true;
         }
         return true;
     },
@@ -322,6 +346,8 @@ game.EnemyEntity = me.Entity.extend({
     
     //manage the enemy movement
     update: function(dt){
+        
+        wrapAround(this);
         // boundary behaviour
         if (this.alive) {
             if (this.walkLeft && this.pos.x <= this.startX) {
@@ -357,7 +383,7 @@ game.EnemyEntity = me.Entity.extend({
             if (this.alive && (response.overlapV.y > 0) && response.a.body.falling) {
                 this.renderable.flicker(750);
             }
-            return false;
+            return true;
         }
         //make all other objects solid
         return true;

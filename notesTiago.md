@@ -15,8 +15,16 @@ Table for object collision:
 * COLLECTABLE_OBJECT: 8
 * ACTION_OBJECT: 16
 * PROJECTILE_OBJECT: 32
-* WORLD_SHAPE: 64
+* WORLD_SHAPE: 64* 
 * ALL_OBJECT: 4294967295
+
+Now using my own way to process collisions.
+switch(other.body.collisionType)
+
+Inspired by:
+http://melonjs.github.io/docs/me.Entity.html#onCollision
+
+
 
 Wondering how to use dynamic image for animation of standing. Maybe define longer sprite with images needed and use:
 
@@ -30,7 +38,6 @@ To do:
 
 * Check player movement speed.
 * Check jump dynamics - increase so jump can go up to 4 houses.
-* Fix camera
 * Boarder dynamics
 * Layer where enemies can hide - done graphicaly but did not implement mechanics
 * enemy AI

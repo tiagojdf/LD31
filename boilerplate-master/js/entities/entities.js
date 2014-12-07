@@ -9,6 +9,10 @@ game.PlayerEntity = me.Entity.extend({
      */
     init:function (x, y, settings) {
         // call the constructor
+        // define image here rather then tiled
+        // !NOTE! need to change for our game
+        settings.image = "gripe_run_right";
+        
         this._super(me.Entity, 'init', [x, y , settings]);
         
         // set the default horizontal & vertical speed (accel vector)
@@ -137,6 +141,7 @@ game.PlayerEntity = me.Entity.extend({
 game.CoinEntity = me.CollectableEntity.extend({
     // extending the init function is not mandatory unless you need to add some extra initialization
     init: function(x, y, settings) {
+        settings.image = "spinning_coin_gold";
         this._super(me.CollectableEntity, 'init', [x, y, settings]);
     },
     

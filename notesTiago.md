@@ -15,15 +15,14 @@ What about jump animation? Need to check on left and right if jump is set to tru
 To do:
 
 * Check player movement speed.
-* Check jump dynamics
+* Check jump dynamics - increase so jump can go up to 4 houses.
 * Fix camera
-* resize canvas
 * Boarder dynamics
 * Layer where enemies can hide - done graphicaly but did not implement mechanics
 * enemy AI
     * make movement
     * direction opposite to player    
-* 
+* Add timer for TIME ATTACK!!!
 
 To remove:
 

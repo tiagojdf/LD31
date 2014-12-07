@@ -4,6 +4,20 @@ My learning notes during the development process.
 
 [2nd problem with Melon.js](https://groups.google.com/forum/#!topic/melonjs/3Vj6hIbt8m4)
 
+3rd problem - bug with empty object list. I believe it has been fixed in the meantime.
+
+Table for object collision:
+
+* NO_OBJECT: 0
+* PLAYER_OBJECT: 1
+* NPC_OBJECT: 2
+* ENEMY_OBJECT: 4
+* COLLECTABLE_OBJECT: 8
+* ACTION_OBJECT: 16
+* PROJECTILE_OBJECT: 32
+* WORLD_SHAPE: 64
+* ALL_OBJECT: 4294967295
+
 Wondering how to use dynamic image for animation of standing. Maybe define longer sprite with images needed and use:
 
 <pre>

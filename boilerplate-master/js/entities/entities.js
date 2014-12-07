@@ -1,4 +1,4 @@
-/* global me, game*/
+/* global me, game, console*/
 /**
  * Player Entity
  */
@@ -14,6 +14,9 @@ game.PlayerEntity = me.Entity.extend({
         settings.image = "gripe_run_right";
         
         this._super(me.Entity, 'init', [x, y , settings]);
+        
+        // Set the types of collision with player to PLAYER_OBJECT
+        this.body.setCollisionType = me.collision.types.PLAYER_OBJECT;
         
         //console.log(this.getBounds()); //db
         
@@ -196,7 +199,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
     },
     
     // AI and movement
-    update: function(dt){
+    /*update: function(dt){
         
         this.renderable.flipX(this.walkLeft);
         //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
@@ -212,15 +215,15 @@ game.SlaveEntity = me.CollectableEntity.extend({
         me.collision.check(this);
         
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
-    },
+    },*/
     
     // this function is called by the engine, when an object is touched by something (here, collected)
     onCollision: function(response, other) {
         var p; //used for random events
         
         // do something when collected
-        //console.log(response.b.body.collisionType); //db
-        if (response.b.body.collisionType === me.collision.types.COLLECTABLE_OBJECT) {
+        
+        if (response.a.body.collisionType === me.collision.types.ENEMY_OBJECT) {
             // make sure it cannot be collected "again"
             this.body.setCollisionMask(me.collision.types.NO_OBJECT);
             

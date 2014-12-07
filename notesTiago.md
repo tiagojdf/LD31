@@ -28,7 +28,6 @@ What about jump animation? Need to check on left and right if jump is set to tru
 
 To do:
 
-* Bug on SlaveEntity onCollision
 * Check player movement speed.
 * Check jump dynamics - increase so jump can go up to 4 houses.
 * Fix camera

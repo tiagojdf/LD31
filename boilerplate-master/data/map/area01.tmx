@@ -21,15 +21,7 @@
     <property name="spritewidth" value="64"/>
    </properties>
   </object>
-  <object name="SlaveEntity" x="831" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="864" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="896" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="928" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="800" y="288" width="32" height="64"/>
   <object name="SlaveEntity" x="768" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="960" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="992" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="1024" y="288" width="32" height="64"/>
  </objectgroup>
  <layer name="Foreground" width="35" height="20">
   <data encoding="base64">

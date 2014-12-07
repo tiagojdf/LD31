@@ -190,6 +190,9 @@ game.SlaveEntity = me.CollectableEntity.extend({
         // to remember which side we were walking 
         this.walkLeft = false;
         
+        // walking and jumping speed 
+        this.body.setVelocity(4, 6);
+        
         //define basic walking animation (using all frames)
         this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
         //define a standing animation (using the first frame) - change in LD for more complex later
@@ -199,12 +202,13 @@ game.SlaveEntity = me.CollectableEntity.extend({
     },
     
     // AI and movement
-    /*update: function(dt){
+    update: function(dt){
         
         this.renderable.flipX(this.walkLeft);
         //this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
         // walk right
         this.body.vel.x += this.body.accel.x *me.timer.tick;
+        console.log(this.body.vel.x);
         // change to walking animation
         if (!this.renderable.isCurrentAnimation("walk")) {
             this.renderable.setCurrentAnimation("walk");
@@ -215,7 +219,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
         me.collision.check(this);
         
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
-    },*/
+    },
     
     // this function is called by the engine, when an object is touched by something (here, collected)
     onCollision: function(response, other) {

@@ -121,7 +121,6 @@ game.PlayerEntity = me.Entity.extend({
         switch(other.body.collisionType) {
                 
             case me.collision.types.WORLD_SHAPE:
-                console.log("Touching the world!");
                 break;
                 
             case me.collision.types.ENEMY_OBJECT:
@@ -139,13 +138,16 @@ game.PlayerEntity = me.Entity.extend({
                         
                         // For debug purposes
                         this.renderable.flicker(750);
-                        // Death
-                        me.game.world.removeChild(this);
+                        // Death //deactivate during development
+                        //me.game.world.removeChild(this);
                     }
                 return false;
-                
+            
+            case me.collision.types.COLLECTABLE_OBJECT:
+                other.death();
                 
         }
+        
         switch(response.b.body.collisionType) {
                 
                 case me.collision.types.WORLD_SHAPE:
@@ -227,7 +229,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
         this.walkLeft = false;
         
         // walking and jumping speed 
-        this.body.setVelocity(4, 6);
+        this.body.setVelocity(4, 10);
         
         // keep previous speed
         this.previousSpeed = 0;
@@ -258,51 +260,61 @@ game.SlaveEntity = me.CollectableEntity.extend({
         // update the body movement
         this.body.update(dt);
         
+        // Check, if position the same, jump or change direction or both
+        /*// do something when collected
+        if (this.previousSpeed < this.body.vel.x) {
+            this.walkLeft = !this.walkLeft;
+        }*/
+        
         me.collision.check(this);
+        
+        
         
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
     },
     
-    // this function is called by the engine, when an object is touched by something (here, collected)
+    // this function is called by the engine, when an object is touched by something
     onCollision: function(response, other) {
+        
+        switch(other.body.collisionType) {
+                case me.collision.types.WORLD_SHAPE:
+                    break;
+                
+                case me.collision.types.COLLECTABLE_OBJECT:
+                case me.collision.types.ENEMY_OBJECT:
+                    if (Math.random() <= 0.01) {
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                    }
+                this.walkLeft = !this.walkLeft;
+                return false;
+        }
+        return true;
+    },
+    death: function() {
         var p; //used for random events
-        
-        // do something when collected
-        
-        if (this.previousSpeed < this.body.vel.x) {
-            this.walkLeft = !this.walkLeft;
-        }
-        
-        if (this.body.vel.x)
-        if (response.a.body.collisionType === me.collision.types.ENEMY_OBJECT) {
-            // make sure it cannot be collected "again"
-            this.body.setCollisionMask(me.collision.types.NO_OBJECT);
-            
-            // Play sfx
-            p = Math.random();
-            if (this.male){
-                if (p <= 1/3) {
-                    me.audio.play("cri_Homme");
-                } else if (p <= 2/3) {
-                    me.audio.play("cri_Homme2");
-                } else {
-                    me.audio.play("cri_Homme3"); 
-                }
-            } else {    
-                if (p <= 1/2) {
-                    me.audio.play("Cri_Femme");                
-                } else {
-                    me.audio.play("Cri_Femme2"); 
-                }
+        this.body.setCollisionMask(me.collision.types.NO_OBJECT);
+        // Play sfx
+        p = Math.random();
+        if (this.male){
+            if (p <= 1/3) {
+                me.audio.play("cri_Homme");
+            } else if (p <= 2/3) {
+                me.audio.play("cri_Homme2");
+            } else {
+                me.audio.play("cri_Homme3"); 
             }
-            
-            
-            // Add death animation
-            
-            //remove it
-            me.game.world.removeChild(this);
-            return true;
+        } else {    
+            if (p <= 1/2) {
+                me.audio.play("Cri_Femme");                
+            } else {
+                me.audio.play("Cri_Femme2"); 
+            }
         }
+            
+        // Add death animation
+            
+        //remove it
+        me.game.world.removeChild(this);
         return true;
     },
     
@@ -341,7 +353,7 @@ game.EnemyEntity = me.Entity.extend({
         this.walkLeft = false; //! is it correct?
         
         // walking and jumping speed 
-        this.body.setVelocity(4, 6);
+        this.body.setVelocity(4, 10);
     },
     
     //manage the enemy movement
@@ -376,7 +388,9 @@ game.EnemyEntity = me.Entity.extend({
      * colision handler
      * (called when colliding with other objects)
      */
+    /*
     onCollision : function (response, other) {
+        
         if (response.b.body.collisionType !== me.collision.types.WORLD_SHAPE) {
             // res.y >0 means touched by something on the bottom which means at top position for this one
             // Finally, in the onCollision method, I make the enemy flicker if something is jumping on top of it.
@@ -387,5 +401,22 @@ game.EnemyEntity = me.Entity.extend({
         }
         //make all other objects solid
         return true;
-    }
+    },*/
+    onCollision: function(response, other) {
+        var p;
+        
+        switch(other.body.collisionType) {
+                    
+                case me.collision.types.COLLECTABLE_OBJECT:
+                case me.collision.types.ENEMY_OBJECT:
+                    p = Math.random();
+                    if (p <= 0.05) {
+                        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                    } else  if (p <= 0.5){
+                        this.walkLeft = !this.walkLeft;                        
+                    }
+                    return false;
+        }
+        return true;
+    },
 });

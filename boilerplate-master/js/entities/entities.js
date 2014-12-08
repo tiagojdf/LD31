@@ -32,16 +32,11 @@ game.PlayerEntity = me.Entity.extend({
         // Set the types of collision with player to PLAYER_OBJECT
         this.body.setCollisionType = me.collision.types.PLAYER_OBJECT;
         
-        //console.log(this.getBounds()); //db
-        
         // set the default horizontal & vertical speed (accel vector)
         this.body.setVelocity(3, 15);
         
-        // set the display  to follow our position on both axis
-        // !NOTE! - remove for LD project
-        //me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
-        
         // ensure the player is updated even when outside of the viewport
+        this.alwaysUpdate = true;
         // Why do I need this?
         
         //define basic walking animation (using all frames)
@@ -50,6 +45,9 @@ game.PlayerEntity = me.Entity.extend({
         this.renderable.addAnimation("stand", [0]);
         // set the standing animation as default
         this.renderable.setCurrentAnimation("stand");
+        
+        //custom variables
+        this.indestructible = false;
         
     },
 
@@ -135,13 +133,25 @@ game.PlayerEntity = me.Entity.extend({
                     } else {
                         // let's flicker in case we touch an enemy
                         // !NOTE! - change to Gave over for real enemy in game
-                        console.log("Game Over");
+                        console.log("Hurt.");
                         //alert("Game Over");
                         
-                        // For debug purposes
-                        this.renderable.flicker(750);
+                        // Effect of being hit
+                        if (!this.indestructible) {
+                            console.log("Ouch!");
+                            game.data.lives -=1;
+                            this.indestructible = true;
+                            this.renderable.flicker(750);
+                            var that = this;
+                            setTimeout(function() {that.indestructible = false;},750);
+                        }
+                        if (game.data.lives <= 0) {
+                            console.log("Dead! Game Over");
+                            this.alive = false;
+                            me.game.world.removeChild(this);
+                        }
                         // Death //deactivate during development
-                        //me.game.world.removeChild(this);
+                        //
                     }
                 return false;
             

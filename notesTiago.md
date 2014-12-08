@@ -10,6 +10,10 @@ My learning notes during the development process.
 
 5th problem - when uploading to github, it seems git is case insensitive to rename operations, so I needed to use git mv -- force <oldName> <newName>. I had to do so, because melonJS with grunt asks for lowercase url.
 
+6th problem - function needed to render is update in:
+<pre>
+return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+</pre>
 Table for object collision:
 
 * NO_OBJECT: 0
@@ -19,12 +23,13 @@ Table for object collision:
 * COLLECTABLE_OBJECT: 8
 * ACTION_OBJECT: 16
 * PROJECTILE_OBJECT: 32
-* WORLD_SHAPE: 64* 
+* WORLD_SHAPE: 64
 * ALL_OBJECT: 4294967295
 
-Now using my own way to process collisions.
+Now using my own way to process collisions:
+<pre>
 switch(other.body.collisionType)
-
+</pre>
 Inspired by:
 http://melonjs.github.io/docs/me.Entity.html#onCollision
 

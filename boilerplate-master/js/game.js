@@ -7,7 +7,7 @@ var game = {
         // score
         score : 0,
         time : 0,
-        lives: 3,
+        lives: 2,
     },
 
 

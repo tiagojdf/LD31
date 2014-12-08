@@ -53,11 +53,21 @@ var game = {
         me.pool.register("EnemyEntity", game.EnemyEntity);
         
         //enable the keyboard
+        //left
         me.input.bindKey(me.input.KEY.LEFT, "left");
+        me.input.bindKey(me.input.KEY.A, "left");
+        //right
         me.input.bindKey(me.input.KEY.RIGHT, "right");
-        // Changed from x to UP
+        me.input.bindKey(me.input.KEY.D, "right");
+        // UP
         me.input.bindKey(me.input.KEY.UP, "jump", true);
+        me.input.bindKey(me.input.KEY.SPACE, "jump", true);
+        me.input.bindKey(me.input.KEY.Z, "jump", true);
+        me.input.bindKey(me.input.KEY.W, "jump", true);
+        // Down
         me.input.bindKey(me.input.KEY.DOWN, "down");
+        me.input.bindKey(me.input.KEY.X, "down");
+        me.input.bindKey(me.input.KEY.S, "down");
         
 
         // Start the game.

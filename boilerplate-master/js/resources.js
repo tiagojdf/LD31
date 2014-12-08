@@ -56,4 +56,6 @@ game.resources = [
     // Title screen
     {name: "title_screen", type:"image", src:"data/img/gui/title_screen.png"},
     {name: "intro", type:"image", src:"data/img/gui/intro.png"}, //temporary solution
+    {name: "lose", type:"image", src:"data/img/gui/lose.png"},
+    {name: "win", type:"image", src:"data/img/gui/win.png"},
 ];

@@ -14,6 +14,10 @@ My learning notes during the development process.
 <pre>
 return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
 </pre>
+
+7th problem - [setTimeout](http://stackoverflow.com/questions/8375962/settimeout-does-not-work) needs to call a function that has the function I want to call later.
+
+
 Table for object collision:
 
 * NO_OBJECT: 0

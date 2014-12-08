@@ -1,5 +1,5 @@
 /*global game, me*/
-game.VictoryScreen = me.ScreenObject.extend({
+game.DefeatScreen = me.ScreenObject.extend({
     /**
      *  action to perform on state change
      */
@@ -17,7 +17,7 @@ game.VictoryScreen = me.ScreenObject.extend({
             new me.Sprite (
                 0,0,
                 //me.loader.getImage('title_screen')
-                me.loader.getImage('win')
+                me.loader.getImage('lose')
             ),
             1
         );

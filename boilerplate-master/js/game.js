@@ -49,6 +49,13 @@ var game = {
         // set the "Play/Ingame" Screen Object
         me.state.set(me.state.PLAY, new game.PlayScreen());
         
+        // set the "Victory" Screen Object
+        me.state.set(me.state.GAME_END, new game.VictoryScreen());
+        
+        // set the "Victory" Screen Object
+        me.state.set(me.state.GAMEOVER, new game.DefeatScreen());
+        
+        
         // set a global fading transition 
         me.state.transition("fade", "#000000", 250);
 

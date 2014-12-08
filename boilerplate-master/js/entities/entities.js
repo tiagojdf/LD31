@@ -155,6 +155,7 @@ game.PlayerEntity = me.Entity.extend({
                         }
                         if (game.data.lives <= 0) {
                             console.log("Dead! Game Over");
+                            setTimeout(function() {me.state.change(me.state.GAMEOVER);},2000);
                             this.alive = false;
                             me.game.world.removeChild(this);
                         }
@@ -536,6 +537,8 @@ game.EnemyEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("dead");
             
         console.log("You win!");
+        // http://stackoverflow.com/questions/8375962/settimeout-does-not-work
+        setTimeout(function() {me.state.change(me.state.GAME_END);},1000);
         
         //remove it
         //me.game.world.removeChild(this);

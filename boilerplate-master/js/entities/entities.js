@@ -5,7 +5,7 @@
 var wrapAround = function(obj) {
     if (obj.pos.x > me.game.currentLevel.width - obj.width/2) {
             obj.pos.x = obj.pos.x - me.game.currentLevel.width;
-        } else if (obj.pos.x + obj.width <= 0) {
+        } else if (obj.pos.x + obj.width/2 <= 0) {
             obj.pos.x = obj.pos.x + me.game.currentLevel.width;
         }
         if (obj.pos.y > (me.game.currentLevel.height - obj.height)) {
@@ -124,7 +124,9 @@ game.PlayerEntity = me.Entity.extend({
                 break;
                 
             case me.collision.types.ENEMY_OBJECT:
-                if ((response.overlapV.y > 0) && !this.body.jumping) {
+                if (game.data.score === 13) {
+                    other.death();                    
+                } else if ((response.overlapV.y > 0) && !this.body.jumping) {
                         //bounce - Need to override this
                         this.body.falling = false;
                         this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
@@ -167,7 +169,7 @@ game.PlayerEntity = me.Entity.extend({
                 
                 case me.collision.types.ENEMY_OBJECT:
                 // CHANGE
-                console.log(other.body.collisionType);
+                // console.log(other.body.collisionType);
                 break;
                     
                 
@@ -314,7 +316,7 @@ game.SlaveEntity = me.CollectableEntity.extend({
         this.renderable.setCurrentAnimation("dead");
             
         game.data.score += 1;
-        console.log(game.data.score);
+        //console.log(game.data.score);
         //remove it
         //me.game.world.removeChild(this);
         return true;
@@ -364,6 +366,12 @@ game.EnemyEntity = me.Entity.extend({
         this.renderable.addAnimation("walk", [0, 1, 2, 3, 4, 5, 6, 7]);
         //define a standing animation (using the first frame) - change in LD for more complex later
         this.renderable.addAnimation("stand", [0]);
+        //define a standing animation (using the first frame) - change in LD for more complex later
+        this.renderable.addAnimation("defeat", [8, 9, 10, 9], 250);
+        //define a standing animation (using the first frame) - change in LD for more complex later
+        this.renderable.addAnimation("death", [8, 11, 12], 300);
+        //define a standing animation (using the first frame) - change in LD for more complex later
+        this.renderable.addAnimation("dead", [12]);
         // set the standing animation as default
         this.renderable.setCurrentAnimation("stand");
     },
@@ -397,7 +405,24 @@ game.EnemyEntity = me.Entity.extend({
         return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||
     },*/
     update: function(dt){
-        
+        if (!this.alive) {
+            if (!this.renderable.isCurrentAnimation("dead")) {
+                this.renderable.setCurrentAnimation("dead");
+            }
+            this.body.vel.x = 0;
+            this.body.update(dt);
+            me.collision.check(this);
+            return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 );   
+        }
+        if (game.data.score >= 13) {
+            if (!this.renderable.isCurrentAnimation("defeat")) {
+            this.renderable.setCurrentAnimation("defeat");
+        }
+            this.body.vel.x = 0;
+            this.body.update(dt);
+            me.collision.check(this);
+            return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 );
+        } else {
         wrapAround(this);
         
         this.renderable.flipX(this.walkLeft);
@@ -433,7 +458,8 @@ game.EnemyEntity = me.Entity.extend({
         
         
         
-        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||        
+        return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 ); //check if ||  
+        }
     },
     
     /**
@@ -468,7 +494,32 @@ game.EnemyEntity = me.Entity.extend({
                         this.walkLeft = !this.walkLeft;                        
                     }
                     return false;
+
         }
+        return true;
+    },
+    death: function() {
+        var p; //used for random events
+        this.body.setCollisionMask(me.collision.types.WORLD_SHAPE);
+        // Play sfx
+        p = Math.random();
+        
+            if (p <= 1/3) {
+                me.audio.play("criHomme");
+            } else if (p <= 2/3) {
+                me.audio.play("criHomme2");
+            } else {
+                me.audio.play("criHomme3"); 
+            }
+        
+            
+        this.alive = false;
+        // Add death animation
+        this.renderable.setCurrentAnimation("dead");
+            
+        console.log("You win!");
+        //remove it
+        //me.game.world.removeChild(this);
         return true;
     },
 });

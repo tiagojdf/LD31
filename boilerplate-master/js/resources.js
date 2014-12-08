@@ -1,3 +1,4 @@
+/*global game*/
 game.resources = [
 
     /* Graphics.
@@ -48,4 +49,7 @@ game.resources = [
     {name: "criHomme2", type: "audio", src: "data/sfx/"},
     {name: "criHomme3", type: "audio", src: "data/sfx/"},
     
+    // Title screen
+    {name: "title_screen", type:"image", src:"data/img/gui/title_screen.png"},
+    {name: "intro", type:"image", src:"data/img/gui/intro.png"}, //temporary solution
 ];

@@ -39,16 +39,19 @@ var game = {
 
     // Run on game resources loaded.
     "loaded" : function () {
+        // Here we need to load all the resources we will be using in game.
         
         // Haven't defined a TitleScreen yet
-        // me.state.set(me.state.MENU, new game.TitleScreen());
+        me.state.set(me.state.MENU, new game.TitleScreen());
+        
         // set the "Play/Ingame" Screen Object
         me.state.set(me.state.PLAY, new game.PlayScreen());
+        
+        // set a global fading transition 
+        me.state.transition("fade", "#000000", 250);
 
-        // add our player entity in the entity pool
+        // add our entities in the entity pool
         me.pool.register("mainPlayer", game.PlayerEntity);
-        // add coin to game pool
-        me.pool.register("CoinEntity", game.CoinEntity);
         me.pool.register("SlaveEntity", game.SlaveEntity);
         me.pool.register("EnemyEntity", game.EnemyEntity);
         
@@ -73,6 +76,7 @@ var game = {
         
 
         // Start the game.
-        me.state.change(me.state.PLAY);
+        me.state.change(me.state.MENU);
+        //me.state.change(me.state.PLAY);
     }
 };

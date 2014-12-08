@@ -41,7 +41,6 @@ What about jump animation? Need to check on left and right if jump is set to tru
 To do:
 
 * Change Theese sprite to more colorfull
-* Add extra keys to control
 * Check player movement speed.
 * Check jump dynamics - increase so jump can go up to 4 houses.
 * Boarder dynamics

@@ -1,4 +1,4 @@
-
+/*global me, alert, window, document*/
 /* Game namespace */
 var game = {
 
@@ -68,6 +68,8 @@ var game = {
         me.input.bindKey(me.input.KEY.DOWN, "down");
         me.input.bindKey(me.input.KEY.X, "down");
         me.input.bindKey(me.input.KEY.S, "down");
+        me.input.bindKey(me.input.KEY.ALT, "down");
+        me.input.bindKey(me.input.KEY.CTRL, "down");
         
 
         // Start the game.

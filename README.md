@@ -6,7 +6,7 @@ Sited hosted at:
 
 http://tiagojdferreira.github.io/LD31/
 
-Developer - Tiago Ferreira
+Developer - [Tiago Ferreira](http://tiagojdferreira.github.io/)
 
 Graphic's Design - [Matthieu Rouquié](www.matthieurouquie.com)
 

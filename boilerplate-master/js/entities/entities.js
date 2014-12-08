@@ -48,6 +48,7 @@ game.PlayerEntity = me.Entity.extend({
         
         //custom variables
         this.indestructible = false;
+        this.lastvel = new me.Vector2d();
         
     },
 
@@ -55,6 +56,11 @@ game.PlayerEntity = me.Entity.extend({
      * update the player position 
      */
     update : function (dt) {
+        
+        if (this.lastvel.y > 0 && this.body.vel.y === 0) {
+            me.audio.play("tombe");
+            }
+        this.lastvel.copy(this.body.vel);
         
         wrapAround(this);
         
@@ -530,6 +536,7 @@ game.EnemyEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("dead");
             
         console.log("You win!");
+        
         //remove it
         //me.game.world.removeChild(this);
         return true;

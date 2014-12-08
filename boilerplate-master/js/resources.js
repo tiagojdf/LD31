@@ -48,6 +48,10 @@ game.resources = [
     {name: "criHomme", type: "audio", src: "data/sfx/"},
     {name: "criHomme2", type: "audio", src: "data/sfx/"},
     {name: "criHomme3", type: "audio", src: "data/sfx/"},
+    // For the mainPlayer
+    {name: "hit", type: "audio", src: "data/sfx/"},
+    {name: "saute", type: "audio", src: "data/sfx/"},
+    {name: "tombe", type: "audio", src: "data/sfx/"},
     
     // Title screen
     {name: "title_screen", type:"image", src:"data/img/gui/title_screen.png"},

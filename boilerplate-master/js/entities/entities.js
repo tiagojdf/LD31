@@ -1,4 +1,4 @@
-/* global me, game, console*/
+/* global me, game, console, setTimeout*/
 /**
  * Player Entity
  */
@@ -97,6 +97,7 @@ game.PlayerEntity = me.Entity.extend({
                 this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
                 // set the jumping flag
                 this.body.jumping = true;
+                me.audio.play("saute");
             }
         }
         
@@ -142,6 +143,7 @@ game.PlayerEntity = me.Entity.extend({
                             game.data.lives -=1;
                             this.indestructible = true;
                             this.renderable.flicker(750);
+                            me.audio.play("hit");
                             var that = this;
                             setTimeout(function() {that.indestructible = false;},750);
                         }

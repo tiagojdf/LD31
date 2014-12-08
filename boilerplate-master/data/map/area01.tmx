@@ -22,14 +22,19 @@
    </properties>
   </object>
   <object name="SlaveEntity" x="768" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="800" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="864" y="288" width="32" height="64"/>
-  <object name="SlaveEntity" x="832" y="288" width="32" height="64"/>
+  <object name="SlaveEntity" x="192" y="384" width="32" height="64"/>
+  <object name="SlaveEntity" x="1024" y="128" width="32" height="64"/>
+  <object name="SlaveEntity" x="928" y="384" width="32" height="64"/>
   <object name="SlaveEntity" x="416" y="64" width="32" height="64"/>
   <object name="SlaveEntity" x="672" y="64" width="32" height="64"/>
   <object name="SlaveEntity" x="320" y="192" width="32" height="64"/>
   <object name="SlaveEntity" x="352" y="288" width="32" height="64"/>
   <object name="EnemyEntity" x="640" y="512" width="32" height="64"/>
+  <object name="SlaveEntity" x="160" y="288" width="32" height="64"/>
+  <object name="SlaveEntity" x="192" y="512" width="32" height="64"/>
+  <object name="SlaveEntity" x="896" y="512" width="32" height="64"/>
+  <object name="SlaveEntity" x="160" y="64" width="32" height="64"/>
+  <object name="SlaveEntity" x="864" y="64" width="32" height="64"/>
  </objectgroup>
  <layer name="Foreground" width="35" height="20">
   <data encoding="base64">

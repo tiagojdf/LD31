@@ -313,6 +313,8 @@ game.SlaveEntity = me.CollectableEntity.extend({
         this.renderable.setCurrentAnimation("death");
         this.renderable.setCurrentAnimation("dead");
             
+        game.data.score += 1;
+        console.log(game.data.score);
         //remove it
         //me.game.world.removeChild(this);
         return true;

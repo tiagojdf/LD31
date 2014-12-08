@@ -12,15 +12,12 @@ game.resources = [
     
     // the background
     // !NOTE! need to change for our game
-    {name: "area01_bkg0", type: "image", src: "data/img/area01_bkg0.png"},
-    {name: "area01_bkg1", type: "image", src: "data/img/area01_bkg1.png"},
     {name: "background", type: "image", src: "data/img/background.png"},
     // the spinning coin spritesheet
     // !NOTE! not needed for now
     {name: "spinning_coin_gold", type: "image", src: "data/img/sprite/spinning_coin_gold.png"},
     // our enemy entity
     // !NOTE! need to add several sprites, for different enemies
-    {name: "wheelie_right", type: "image", src: "data/img/sprite/wheelie_right.png"},
     {name: "slave_01", type: "image", src: "data/img/sprite/slave_01.png"},
     {name: "slave_02", type: "image", src: "data/img/sprite/slave_02.png"},
     {name: "thesee", type: "image", src: "data/img/sprite/thesee.png"},

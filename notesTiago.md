@@ -6,6 +6,10 @@ My learning notes during the development process.
 
 3rd problem - bug with empty object list. I believe it has been fixed in the meantime.
 
+4th problem - collisions are a mess. Found a nicer syntax solution than the one use in the tutorial
+
+5th problem - when uploading to github, it seems git is case insensitive to rename operations, so I needed to use git mv -- force <oldName> <newName>. I had to do so, because melonJS with grunt asks for lowercase url.
+
 Table for object collision:
 
 * NO_OBJECT: 0
@@ -36,6 +40,8 @@ What about jump animation? Need to check on left and right if jump is set to tru
 
 To do:
 
+* Change Theese sprite to more colorfull
+* Add extra keys to control
 * Check player movement speed.
 * Check jump dynamics - increase so jump can go up to 4 houses.
 * Boarder dynamics

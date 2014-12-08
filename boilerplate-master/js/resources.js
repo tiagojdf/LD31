@@ -42,10 +42,10 @@ game.resources = [
      * @example
      * {name: "example_sfx", type: "audio", src: "data/sfx/"}
      */
-    {name: "cri_Femme", type: "audio", src: "data/sfx/"},
-    {name: "cri_Femme2", type: "audio", src: "data/sfx/"},
-    {name: "cri_Homme", type: "audio", src: "data/sfx/"},
-    {name: "cri_Homme2", type: "audio", src: "data/sfx/"},
-    {name: "cri_Homme3", type: "audio", src: "data/sfx/"},
+    {name: "criFemme", type: "audio", src: "data/sfx/"},
+    {name: "criFemme2", type: "audio", src: "data/sfx/"},
+    {name: "criHomme", type: "audio", src: "data/sfx/"},
+    {name: "criHomme2", type: "audio", src: "data/sfx/"},
+    {name: "criHomme3", type: "audio", src: "data/sfx/"},
     
 ];

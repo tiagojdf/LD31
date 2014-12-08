@@ -292,17 +292,17 @@ game.SlaveEntity = me.CollectableEntity.extend({
         p = Math.random();
         if (this.male){
             if (p <= 1/3) {
-                me.audio.play("cri_Homme");
+                me.audio.play("criHomme");
             } else if (p <= 2/3) {
-                me.audio.play("cri_Homme2");
+                me.audio.play("criHomme2");
             } else {
-                me.audio.play("cri_Homme3"); 
+                me.audio.play("criHomme3"); 
             }
         } else {    
             if (p <= 1/2) {
-                me.audio.play("Cri_Femme");                
+                me.audio.play("CriFemme");                
             } else {
-                me.audio.play("Cri_Femme2"); 
+                me.audio.play("CriFemme2"); 
             }
         }
             

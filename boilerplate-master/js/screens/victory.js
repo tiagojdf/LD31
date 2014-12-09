@@ -5,13 +5,9 @@ game.VictoryScreen = me.ScreenObject.extend({
      */
     onResetEvent: function() {
         
-        // Reset gane vars
-        game.data = {
-        // score
-        score : 0,
-        time : 0,
-        lives: 2,
-        };
+        // Reset some variables?
+        game.data.score = 0;
+        game.data.lives = 2;
         // Title screen
         me.game.world.addChild(
             new me.Sprite (
@@ -23,7 +19,29 @@ game.VictoryScreen = me.ScreenObject.extend({
         );
         
         // Add renderable
-        
+        // add a new renderable component with the scrolling text
+        me.game.world.addChild(new (me.Renderable.extend ({
+            // constructor
+            init : function() {
+                this._super(me.Renderable, 'init', [0, 0, me.game.viewport.width, me.game.viewport.height]);
+                // font for the scrolling text
+                this.font  = new me.Font("SATYP___", 48, '#e0dedc', 'center');
+                 
+                 
+            },
+              
+            update : function (dt) {
+                return true;
+            },
+             
+            draw : function (renderable) {
+                this.font.draw(renderable.getContext(), "Your best time was " + (Math.floor(game.data.bestTime/(1000*60)))+ ":" + pad((Math.floor((game.data.bestTime/1000)%60)),2)+ ":" + pad((game.data.bestTime % 1000), 3),560, 140);
+            },
+            onDestroyEvent : function() {
+                //just in case
+                this.scrollertween.stop();
+            }
+        })), 2);
         // Change to play state on press of any key or click/tap
         me.input.bindKey(me.input.KEY.DOWN, "start", true);
         me.input.bindKey(me.input.KEY.SPACE, "start", true);

@@ -80,6 +80,12 @@ game.HUD.ScoreItem = me.Renderable.extend({
  * a basic HUD item to display time
  */
 game.HUD.Timer = me.Renderable.extend({
+    /*
+    Consider updating to me.timer.setInterval();
+    @Tiagojdferreira The update() methods all receive a parameter with relative timing information.
+If you just want wall-clock time, use new Date()
+You can also create timers that pause with the game engine, using me.timer.setTimeout() and me.timer.setInterval()
+    */
     /**
      * constructor
      */
@@ -93,8 +99,8 @@ game.HUD.Timer = me.Renderable.extend({
         this.font  = new me.Font("SATYP___", 24, '#e0dedc', 'right');
 
         // local copy of the global score
-        this.start = new Date().getTime();
-        this.time = 0;
+        this.time = me.timer.getTime();
+        this.startTime = this.time;
         
         // make sure we use screen coordinates
         this.floating = true;
@@ -107,7 +113,8 @@ game.HUD.Timer = me.Renderable.extend({
         // we don't do anything fancy here, so just
         // return true if the score has been updated
         //var this.time = this.init.getMilliseconds();
-        this.time = new Date().getTime() - this.start;
+        //this.time = new Date().getTime() - this.start;
+        this.time = me.timer.getTime() - this.startTime;
         return true;
     },
 

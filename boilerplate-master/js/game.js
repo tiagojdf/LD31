@@ -6,8 +6,8 @@ var game = {
     data : {
         // score
         score : 0,
-        time : 0,
         lives: 2,
+        bestTime: Infinity, // http://melonjs.github.io/docs/me.save.html
     },
 
 

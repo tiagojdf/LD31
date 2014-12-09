@@ -4,12 +4,12 @@
  */
 var wrapAround = function(obj) {
     if (obj.pos.x > me.game.currentLevel.width - obj.width/2) {
-            obj.pos.x = obj.pos.x - me.game.currentLevel.width;
-        } else if (obj.pos.x + obj.width/2 <= 0) {
+            obj.pos.x = 0;
+        } else if (obj.pos.x + obj.width/2 < 0) {
             obj.pos.x = obj.pos.x + me.game.currentLevel.width;
         }
         if (obj.pos.y > (me.game.currentLevel.height - obj.height)) {
-            obj.pos.y = obj.pos.y - me.game.currentLevel.height;
+            obj.pos.y = 0;
         } else if (obj.pos.y +  obj.height< 0) {
             obj.pos.y = obj.pos.y + me.game.currentLevel.height;
         }
@@ -56,7 +56,6 @@ game.PlayerEntity = me.Entity.extend({
      * update the player position 
      */
     update : function (dt) {
-        
         if (this.lastvel.y > 0 && this.body.vel.y === 0) {
             me.audio.play("tombe");
             }
@@ -537,6 +536,9 @@ game.EnemyEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("dead");
             
         console.log("You win!");
+        console.log(game.data.bestTime ,me.timer.getTime());
+        game.data.bestTime = Math.min(game.data.bestTime, me.timer.getTime());
+        console.log(game.data.bestTime ,me.timer.getTime());
         // http://stackoverflow.com/questions/8375962/settimeout-does-not-work
         setTimeout(function() {me.state.change(me.state.GAME_END);},1000);
         

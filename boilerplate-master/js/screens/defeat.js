@@ -9,7 +9,6 @@ game.DefeatScreen = me.ScreenObject.extend({
         game.data = {
         // score
         score : 0,
-        time : 0,
         lives: 2,
         };
         // Title screen

@@ -100,7 +100,7 @@ You can also create timers that pause with the game engine, using me.timer.setTi
 
         // local copy of the global score
         this.time = me.timer.getTime();
-        this.startTime = this.time;
+        //this.startTime = this.time;
         
         // make sure we use screen coordinates
         this.floating = true;
@@ -114,7 +114,7 @@ You can also create timers that pause with the game engine, using me.timer.setTi
         // return true if the score has been updated
         //var this.time = this.init.getMilliseconds();
         //this.time = new Date().getTime() - this.start;
-        this.time = me.timer.getTime() - this.startTime;
+        this.time = me.timer.getTime() - game.data.time;
         return true;
     },
 

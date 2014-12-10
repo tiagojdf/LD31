@@ -8,6 +8,7 @@ game.VictoryScreen = me.ScreenObject.extend({
         // Reset some variables?
         game.data.score = 0;
         game.data.lives = 2;
+        game.data.time = me.timer.getTime();
         // Title screen
         me.game.world.addChild(
             new me.Sprite (

@@ -5,12 +5,11 @@ game.DefeatScreen = me.ScreenObject.extend({
      */
     onResetEvent: function() {
         
-        // Reset gane vars
-        game.data = {
-        // score
-        score : 0,
-        lives: 2,
-        };
+        // Reset some variables?
+        game.data.score = 0;
+        game.data.lives = 2;
+        game.data.time = me.timer.getTime();
+        
         // Title screen
         me.game.world.addChild(
             new me.Sprite (

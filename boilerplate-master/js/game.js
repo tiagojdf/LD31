@@ -7,6 +7,7 @@ var game = {
         // score
         score : 0,
         lives: 2,
+        time: me.timer.getTime(),
         bestTime: Infinity, // http://melonjs.github.io/docs/me.save.html
     },
 

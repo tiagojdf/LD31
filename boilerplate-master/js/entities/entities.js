@@ -536,9 +536,9 @@ game.EnemyEntity = me.Entity.extend({
         this.renderable.setCurrentAnimation("dead");
             
         console.log("You win!");
-        console.log(game.data.bestTime ,me.timer.getTime());
-        game.data.bestTime = Math.min(game.data.bestTime, me.timer.getTime());
-        console.log(game.data.bestTime ,me.timer.getTime());
+        //console.log(game.data.bestTime ,me.timer.getTime());
+        game.data.bestTime = Math.min(game.data.bestTime, me.timer.getTime() - game.data.time);
+        //console.log(game.data.bestTime ,me.timer.getTime());
         // http://stackoverflow.com/questions/8375962/settimeout-does-not-work
         setTimeout(function() {me.state.change(me.state.GAME_END);},1000);
         

@@ -1,11 +1,11 @@
 # LD31 
-This repository will host my entry for the Ludum Dare 31 Game Jam.
+This repository hosts my entry for the [Ludum Dare 31 Game Jam](http://ludumdare.com/compo/ludum-dare-31/?action=preview&uid=45461).
 
 Sited hosted at:
 
 http://tiagojdferreira.github.io/LD31/boilerplate-master/
 
-To see the code, check the branch gh-pages of this repository.
+To see the code, check the branch [gh-pages](https://github.com/Tiagojdferreira/LD31/tree/gh-pages/) of this repository.
 
 Developer - [Tiago Ferreira](http://tiagojdferreira.github.io/)
 

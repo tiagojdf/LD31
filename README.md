@@ -1,6 +1,13 @@
 # LD31 - Asterion
-This repository will host my entry for the Ludum Dare 31 Game Jam.
+This repository hosts my entry for the Ludum Dare 31 Game Jam. This game might be develop into an actual title for Tizen.
 Theme - Entire Game on One Screen
+
+Subject: Asterion
+URL: https://github.com/Tiagojdferreira/LD31/tree/gh-pages
+License: Any OS licence or "ClosedSource"
+Keywords: tags, limit, 5words
+Description: Platformer were you slaughter pesky slaves in your labyrinth. 
+Contact: http://tiagojdferreira.github.io/
 
 Sited hosted at:
 
